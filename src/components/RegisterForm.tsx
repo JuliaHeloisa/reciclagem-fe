@@ -21,7 +21,7 @@ export default function RegisterForm() {
     email: '',
     password: '',
     confirmPassword: '',
-    type: '', // 👈 novo campo
+    type: '',
   });
   const [error, setError] = useState('');
   const router = useRouter();
@@ -52,11 +52,12 @@ export default function RegisterForm() {
         name: form.name,
         email: form.email,
         password: form.password,
-        role: form.type, // 👈 enviado no cadastro
+        role: form.type,
       });
       router.push('/login');
     } catch (err) {
-      setError(`Erro ao cadastrar. Verifique os dados. Detalhes: ${err}`);
+      setError(`Erro ao cadastrar. Verifique os dados.`);
+      console.error(err);
     }
   };
 

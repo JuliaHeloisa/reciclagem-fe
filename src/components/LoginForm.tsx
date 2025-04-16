@@ -32,7 +32,8 @@ export default function LoginPage() {
 
       await auth.login(email, senha);
     } catch (err) {
-      setErro(`Credenciais inválidas. Tente novamente. Detalhes: ${err}`);
+      setErro(`Credenciais inválidas. Tente novamente.`);
+      console.error(err);
     } finally {
       setLoading(false);
     }
