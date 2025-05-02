@@ -97,6 +97,12 @@ export default function RegisterItemForm() {
 
         <form onSubmit={handleSubmit}>
           <Stack spacing={2}>
+            <Typography level="body-sm" textAlign="center">
+              Preencha os campos abaixo para registrar um item reciclado.
+            </Typography>
+            <Typography level="body-sm" color="primary">
+              Tipo de material
+            </Typography>
             <Select
               name="material"
               placeholder="Tipo de material"
@@ -107,12 +113,20 @@ export default function RegisterItemForm() {
                 color: '#000',
               }}
             >
-              <Option value="Plástico">Plástico</Option>
-              <Option value="Papel">Papel</Option>
-              <Option value="Vidro">Vidro</Option>
-              <Option value="Metal">Metal</Option>
+              <Option value="Pilha">Pilha</Option>
+              <Option value="Bateria">Bateria</Option>
+              <Option value="Placa Eletrônica">Placa Eletrônica</Option>
+              <Option value="Memória">Memória</Option>
+              <Option value="SSD">SSD</Option>
+              <Option value="Circuito Eletrônico">Circuito Eletrônico</Option>
+              <Option value="Tela">Tela</Option>
+              <Option value="Smartphone">Smartphone</Option>
+              <Option value="Carregador">Carregador</Option>
+              <Option value="Outros">Outros</Option>
             </Select>
-
+            <Typography level="body-sm" color="primary">
+              Quantidade
+            </Typography>
             <Input
               name="quantity"
               type="number"
@@ -124,7 +138,9 @@ export default function RegisterItemForm() {
                 '--Input-placeholderColor': '#000'
               }}
             />
-
+            <Typography level="body-sm" color="primary">
+              Unidade
+            </Typography>
             <Select
               name="unit"
               placeholder="Unidade"
@@ -138,7 +154,9 @@ export default function RegisterItemForm() {
               <Option value="kg">Quilos</Option>
               <Option value="units">Unidades</Option>
             </Select>
-
+            <Typography level="body-sm" color="primary">
+              Data    
+            </Typography>   
             <Input
               name="date"
               type="date"
@@ -146,7 +164,9 @@ export default function RegisterItemForm() {
               onChange={handleChange}
               required
             />
-
+            <Typography level="body-sm" color="primary">
+              Local de reciclagem
+            </Typography> 
             <Select
               name="recyclingLocationId"
               placeholder="Local de reciclagem"

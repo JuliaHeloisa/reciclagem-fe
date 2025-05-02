@@ -1,23 +1,43 @@
 'use client';
 
 import { createRecyclingLocation } from '@/services/recyclingLocationService';
-import { Box, Button, Input, Sheet, Stack, Typography } from '@mui/joy';
+import {
+  Box,
+  Button,
+  Input,
+  Sheet,
+  Stack,
+  Typography,
+  Checkbox,
+} from '@mui/joy';
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 
 const placeholder = {
   name: 'Nome do Local',
   address: 'Endereço',
-  materialsAccepted: 'Materiais Aceitos',
   contact: 'Contato',
   openingHours: 'Horário de Funcionamento',
 };
+
+const materialOptions = [
+  'Pilha',
+  'Bateria',
+  'Placa Eletrônica',
+  'Memória',
+  'SSD',
+  'Circuito Eletrônico',
+  'Tela',
+  'Smartphone',
+  'Carregador',
+  'Outros',
+];
 
 export default function RegisterLocalForm() {
   const [form, setForm] = useState({
     name: '',
     address: '',
-    materialsAccepted: '',
+    materialsAccepted: '', // será preenchido pelos checkboxes
     contact: '',
     openingHours: '',
   });
@@ -26,6 +46,22 @@ export default function RegisterLocalForm() {
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setForm((prev) => ({ ...prev, [e.target.name]: e.target.value }));
+  };
+
+  const handleCheckboxChange = (material: string, checked: boolean) => {
+    const current = form.materialsAccepted
+      .split(',')
+      .map((m) => m.trim())
+      .filter((m) => m.length > 0);
+
+    const updated = checked
+      ? [...current, material]
+      : current.filter((m) => m !== material);
+
+    setForm((prev) => ({
+      ...prev,
+      materialsAccepted: updated.join(','),
+    }));
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -60,22 +96,45 @@ export default function RegisterLocalForm() {
 
         <form onSubmit={handleSubmit}>
           <Stack spacing={2}>
-            {['name', 'address', 'materialsAccepted', 'contact', 'openingHours'].map((field) => (
-              <Input
-                key={field}
-                placeholder={placeholder[field as keyof typeof placeholder]}
-                name={field}
-                value={form[field as keyof typeof form]}
-                onChange={handleChange}
-                required
-              />
+            {/* Campos de texto */}
+            {['name', 'address', 'contact', 'openingHours'].map((field) => (
+              <div key={field}>
+                <Typography level="body-sm" color="primary">
+                  {placeholder[field as keyof typeof placeholder]}
+                </Typography>
+                <Input
+                  placeholder={placeholder[field as keyof typeof placeholder]}
+                  name={field}
+                  value={form[field as keyof typeof form]}
+                  onChange={handleChange}
+                  required
+                />
+              </div>
             ))}
+
+            {/* Checkboxes de materiais */}
+            <Typography level="body-sm" color="primary">
+              Materiais Aceitos
+            </Typography>
+            <Stack spacing={1}>
+              {materialOptions.map((material) => (
+                <Checkbox
+                  key={material}
+                  label={material}
+                  checked={form.materialsAccepted.includes(material)}
+                  onChange={(e) =>
+                    handleCheckboxChange(material, e.target.checked)
+                  }
+                />
+              ))}
+            </Stack>
 
             {error && (
               <Typography color="danger" level="body-sm">
                 {error}
               </Typography>
             )}
+
             <Button type="submit" sx={{ backgroundColor: '#114d4d' }}>
               Cadastrar
             </Button>
